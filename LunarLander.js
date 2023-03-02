@@ -1,3 +1,7 @@
+function setup() {
+  createCanvas(800, 800);
+}
+
 background(0, 0, 0);
 
 function rocket(x, y) {
@@ -81,10 +85,10 @@ function rocket(x, y) {
 }
 
 /*
-function draw() {
-  rocket(150, 200);
-}
-*/
+  function draw() {
+    rocket(150, 200);
+  }
+  */
 
 function redPlanet(x, y) {
   // red planet
@@ -152,7 +156,13 @@ for (let i = 0; i < 300; i++) {
   starAlpha.push(alpha);
 }
 
-function draw() {
+let rocketY = 150;
+let rocketX = 400;
+let velocity = 1;
+let acceleration = 0.2;
+let isGameActive = true;
+
+function startScreen() {
   noStroke();
   background(0, 0, 0);
 
@@ -163,9 +173,90 @@ function draw() {
     starAlpha[index] = starAlpha[index] + 0.02;
   }
 
-  rocket(400, 150);
+  fill(255, 255, 255);
+  textSize(40);
+  text("Click to start", 300, 300);
+}
+
+function gameScreen() {
+  noStroke();
+  background(0, 0, 0);
+
+  for (let index in starX) {
+    fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
+    ellipse(starX[index], starY[index], 2);
+
+    starAlpha[index] = starAlpha[index] + 0.02;
+  }
+
   bluePlanet(650, 150);
   redPlanet(200, 250);
   BeigePlanet(200, 180);
   ground(0, 700);
+  rocket(rocketX, rocketY);
+  rocketY = rocketY + velocity;
+  velocity = velocity + acceleration;
 }
+
+function resultScreen() {
+  noStroke();
+  background(0, 0, 0);
+
+  for (let index in starX) {
+    fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
+    ellipse(starX[index], starY[index], 2);
+
+    starAlpha[index] = starAlpha[index] + 0.02;
+  }
+
+  fill(255, 255, 255);
+  textSize(40);
+  text("Your landed safely!", 400, 300);
+}
+
+let state = "start";
+/*
+  function draw() {
+    if (state === "start") {
+      startScreen();
+    } else if (state === "game") {
+      gameScreen();
+    } else if (state === "result") {
+      resultScreen();
+    }
+  }
+  */
+
+function mouseClicked() {
+  if (state === "start") {
+    state = "game";
+  } else if (state === "game") {
+    state = "result";
+  } else if (state === "result") {
+    state = "start";
+  }
+}
+
+function draw() {
+  if (state === "start") {
+    startScreen();
+  }
+  if (isGameActive && state === "game") {
+    gameScreen();
+  } else if (isGameActive === false && state === "result") {
+    resultScreen();
+  }
+}
+
+/*
+  if (isGameactive) {
+    rocketY = rocketY + velocity;
+    velocity = velocity + acceleration;
+  }
+  if (rocketY > 700) {
+    isGameActive = false;
+  }
+  if (rocketX < 250 && rocketX > 600) {
+    isGameActive = false;
+  }
+  */
