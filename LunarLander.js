@@ -87,7 +87,7 @@ function bluePlanet(x, y) {
 }
 
 function GreenPlanet(x, y) {
-  // green planet
+  // beige planet
   strokeWeight(1);
   fill(120, 156, 132);
   ellipse(x - 100, y - 70, 170);
@@ -106,11 +106,11 @@ function ground(x, y) {
   triangle(x + 600, y, x + 800, y - 350, x + 800, y);
   triangle(x + 200, y - 100, x + 100, y, x + 300, y);
   fill(150, 150, 150);
-  ellipse(x + 200, y + 50, 100, 50);
-  ellipse(x + 350, y + 70, 70, 30);
-  ellipse(x + 600, y + 40, 70, 30);
-  ellipse(x + 50, y + 90, 130, 50);
-  ellipse(x + 700, y + 90, 130, 50);
+  ellipse(x + 200, y + random(50, 51), 100, 50);
+  ellipse(x + 350, y + random(70, 71), 70, 30);
+  ellipse(x + 600, y + random(40, 41), 70, 30);
+  ellipse(x + 50, y + random(90, 91), 130, 50);
+  ellipse(x + 700, y + random(90, 91), 130, 50);
 }
 
 let starX = [];
@@ -133,7 +133,7 @@ function startScreen() {
 
   for (let index in starX) {
     fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
-    ellipse(starX[index], starY[index], 2);
+    ellipse(starX[index], starY[index], 1);
 
     starAlpha[index] = starAlpha[index] + 0.02;
   }
@@ -146,6 +146,7 @@ function startScreen() {
 }
 
 function gameScreen() {
+  // background
   noStroke();
   background(0, 0, 0);
 
@@ -160,17 +161,19 @@ function gameScreen() {
   redPlanet(200, 250);
   GreenPlanet(200, 180);
   ground(0, 700);
-  rocket(400, rocketY);
+  rocket(rocketX, rocketY);
+
+  rocketX = rocketX + 0;
 
   if (isGameActive) {
     rocketY = rocketY + velocity;
     velocity = velocity + acceleration;
-    //rocketX = rocketX + 1;
   }
 
-  if (keyIsDown(40) && isGameActive) {
+  if (keyIsDown(38) && isGameActive) {
     velocity = velocity - 0.7;
   }
+
   if (rocketY > 650 && velocity > 5) {
     isGameActive = false;
     state = "fail";
@@ -178,17 +181,29 @@ function gameScreen() {
   } else if (rocketY > 650 && velocity < 5) {
     isGameActive = false;
     state = "win";
-
     winScreen();
-
-    /*
-    if (rocketX < 300 || rocketX > 600) {
-      isGameActive = false;
-      state = "fail";
-      failScreen();
-    }
-    */
   }
+
+  if (keyIsDown(37)) {
+    rocketX = rocketX - 3;
+  }
+  if (keyIsDown(39)) {
+    rocketX = rocketX + 3;
+  }
+
+  /*
+  if (rocketX < 300 || rocketX > 600) {
+    isGameActive = false;
+    state = "fail";
+    move = 0;
+    failScreen();
+  } else if (rocketX > 300 || rocketX < 600) {
+    isGameActive = false;
+    state = "win";
+    move = 0;
+    winScreen();
+  }
+  */
 }
 
 function winScreen() {
@@ -197,14 +212,14 @@ function winScreen() {
 
   for (let index in starX) {
     fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
-    ellipse(starX[index], starY[index], 2);
+    ellipse(starX[index], starY[index], 1);
 
     starAlpha[index] = starAlpha[index] + 0.02;
   }
 
   fill(255, 255, 255);
   textSize(40);
-  text("Your landed safely!", 230, 300);
+  text("You landed safely!", 230, 300);
 }
 
 function failScreen() {
@@ -213,7 +228,7 @@ function failScreen() {
 
   for (let index in starX) {
     fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
-    ellipse(starX[index], starY[index], 2);
+    ellipse(starX[index], starY[index], 1);
 
     starAlpha[index] = starAlpha[index] + 0.02;
   }
@@ -240,6 +255,7 @@ function mouseClicked() {
   }
 }
 
+let rocketX = 400;
 let rocketY = 100;
 let velocity = 1;
 let acceleration = 0.3;
