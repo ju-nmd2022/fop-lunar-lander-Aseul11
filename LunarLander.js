@@ -16,11 +16,12 @@ function rocket(x, y) {
   pop();
 
   // legs
-  fill(178, 44, 44);
+  fill(18, 44, 44);
   ellipse(x + 37.5, y + 70, 6);
   ellipse(x - 37.5, y + 70, 6);
 
   beginShape();
+
   vertex(x - 24, y + 55);
   bezierVertex(x - 26, y + 45, x - 35, y + 50, x - 35, y + 69);
   vertex(x - 40, y + 69);
@@ -39,7 +40,7 @@ function rocket(x, y) {
   endShape();
 
   //body
-  fill(110, 44, 44);
+  fill(71, 103, 135);
   ellipse(x, y, 70, 150);
 
   // window
@@ -51,7 +52,7 @@ function rocket(x, y) {
   ellipse(x, y - 20, 30);
 
   // bottom
-  fill(178, 44, 44);
+  fill(18, 44, 44);
   rect(x - 23, y + 60, 45, 15, 6);
 }
 
@@ -85,11 +86,16 @@ function bluePlanet(x, y) {
   ellipse(x - 20, y + 50, 15);
 }
 
-function BeigePlanet(x, y) {
-  // beige planet
+function GreenPlanet(x, y) {
+  // green planet
   strokeWeight(1);
-  fill(150, 128, 108);
+  fill(120, 156, 132);
   ellipse(x - 100, y - 70, 170);
+  fill(95, 133, 117);
+  ellipse(x - 100, y - 100, 70);
+  ellipse(x - 140, y - 40, 20);
+  ellipse(x - 110, y - 20, 40);
+  ellipse(x - 60, y - 50, 40);
 }
 
 function ground(x, y) {
@@ -127,7 +133,7 @@ function startScreen() {
 
   for (let index in starX) {
     fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
-    ellipse(starX[index], starY[index], 1);
+    ellipse(starX[index], starY[index], 2);
 
     starAlpha[index] = starAlpha[index] + 0.02;
   }
@@ -152,13 +158,14 @@ function gameScreen() {
 
   bluePlanet(650, 150);
   redPlanet(200, 250);
-  BeigePlanet(200, 180);
+  GreenPlanet(200, 180);
   ground(0, 700);
   rocket(400, rocketY);
 
   if (isGameActive) {
     rocketY = rocketY + velocity;
     velocity = velocity + acceleration;
+    //rocketX = rocketX + 1;
   }
 
   if (keyIsDown(40) && isGameActive) {
@@ -171,7 +178,16 @@ function gameScreen() {
   } else if (rocketY > 650 && velocity < 5) {
     isGameActive = false;
     state = "win";
+
     winScreen();
+
+    /*
+    if (rocketX < 300 || rocketX > 600) {
+      isGameActive = false;
+      state = "fail";
+      failScreen();
+    }
+    */
   }
 }
 
@@ -181,7 +197,7 @@ function winScreen() {
 
   for (let index in starX) {
     fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
-    ellipse(starX[index], starY[index], 1);
+    ellipse(starX[index], starY[index], 2);
 
     starAlpha[index] = starAlpha[index] + 0.02;
   }
@@ -197,7 +213,7 @@ function failScreen() {
 
   for (let index in starX) {
     fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
-    ellipse(starX[index], starY[index], 1);
+    ellipse(starX[index], starY[index], 2);
 
     starAlpha[index] = starAlpha[index] + 0.02;
   }
