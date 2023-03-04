@@ -104,7 +104,8 @@ function ground(x, y) {
   // crash zone
   triangle(x, y - 200, x + 200, y, x, y);
   triangle(x + 600, y, x + 800, y - 350, x + 800, y);
-  triangle(x + 200, y - 100, x + 100, y, x + 300, y);
+  triangle(x + 200, y - 150, x + 100, y, x + 450, y);
+  triangle(x, y - 150, x + 150, y, x + 200, y - 150);
   fill(150, 150, 150);
   ellipse(x + 200, y + random(50, 51), 100, 50);
   ellipse(x + 350, y + random(70, 71), 70, 30);
@@ -142,7 +143,7 @@ function startScreen() {
   textSize(40);
   text("Click to start", 300, 300);
   textSize(30);
-  text("You should land on a flat groud", 210, 370);
+  text("You should land on a flat ground", 200, 370);
 }
 
 function gameScreen() {
@@ -162,6 +163,8 @@ function gameScreen() {
   GreenPlanet(200, 180);
   ground(0, 700);
   rocket(rocketX, rocketY);
+
+  // ROCKET IS MOVING
 
   rocketX = rocketX + 0;
 
@@ -191,21 +194,21 @@ function gameScreen() {
     rocketX = rocketX + 3;
   }
 
+  // ROCKET CRASHES IF NOT LANDING ON A FLAT GROUND
   /*
-  if (rocketX < 300 || rocketX > 600) {
+  if ((rocketX < 300 && rocketY > 600) || (rocketX > 600 && rocketY > 600)) {
     isGameActive = false;
     state = "fail";
-    move = 0;
     failScreen();
   } else if (rocketX > 300 || rocketX < 600) {
     isGameActive = false;
     state = "win";
-    move = 0;
     winScreen();
   }
   */
 }
 
+// WIN SCREEN WIN SCREEN WIN SCREEN
 function winScreen() {
   noStroke();
   background(0, 0, 0);
@@ -222,6 +225,7 @@ function winScreen() {
   text("You landed safely!", 230, 300);
 }
 
+// FAIL SCREEN FAIL SCREEN FAIL SCREEN
 function failScreen() {
   noStroke();
   background(0, 0, 0);
@@ -239,8 +243,6 @@ function failScreen() {
   text("Click to try again", 250, 350);
 }
 
-let state = "start";
-
 function mouseClicked() {
   if (state === "start") {
     state = "game";
@@ -255,6 +257,7 @@ function mouseClicked() {
   }
 }
 
+let state = "start";
 let rocketX = 400;
 let rocketY = 100;
 let velocity = 1;
