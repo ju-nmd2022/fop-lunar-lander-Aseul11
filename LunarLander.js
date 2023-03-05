@@ -31,8 +31,8 @@ function setup() {
 background(0, 0, 0);
 
 function fire(x, y) {
-  // sourse for making fire https://www.youtube.com/watch?v=cl5FW_zgY_Q
   //fire
+  // sourse for making fire move https://www.youtube.com/watch?v=cl5FW_zgY_Q
   fill(255, 215, 0);
   ellipse(x, y + random(80, 88), 35, 60);
   push();
@@ -97,6 +97,8 @@ function redPlanet(x, y) {
   // red planet
   strokeWeight(1);
   push();
+
+  // shining objects sourse: https://p5js.org/reference/#/p5/drawingContext
   drawingContext.shadowBlur = 5;
   drawingContext.shadowColor = "pink";
   fill(145, 95, 95);
@@ -131,7 +133,7 @@ function bluePlanet(x, y) {
 }
 
 function GreenPlanet(x, y) {
-  // beige planet
+  // green planet
   strokeWeight(1);
   push();
   drawingContext.shadowBlur = 5;
@@ -147,11 +149,10 @@ function GreenPlanet(x, y) {
 }
 
 function ground(x, y) {
-  //
   fill(200, 200, 200);
   rect(x, y, 800, 500);
-  // crash zone
 
+  // hills
   push();
   fill(220, 220, 220);
   triangle(x, y - 250, x + 300, y, x, y);
@@ -165,7 +166,6 @@ function ground(x, y) {
   fill(170, 170, 170);
   rect(x, y + 40, 800, 500);
   fill(150, 150, 150);
-
   rect(x, y + 70, 800, 500);
 }
 
@@ -185,6 +185,9 @@ for (let i = 0; i < 300; i++) {
   starAlpha.push(alpha);
 }
 
+// START SCREEN
+// sourse: video lecture about screens
+
 function startScreen() {
   noStroke();
   background(0, 0, 0);
@@ -195,9 +198,8 @@ function startScreen() {
 
     starAlpha[index] = starAlpha[index] + 0.02;
   }
-  push();
 
-  // shining text sourse: https://p5js.org/reference/#/p5/drawingContext
+  push();
   drawingContext.shadowBlur = 3;
   drawingContext.shadowColor = "white";
   fill(255, 255, 255);
@@ -210,6 +212,7 @@ function startScreen() {
   ground(0, 700);
 }
 
+// GAME SCREEN
 function gameScreen() {
   // background
   noStroke();
@@ -229,7 +232,10 @@ function gameScreen() {
   fire(rocketX, rocketY);
   rocket(rocketX, rocketY);
 
-  // ROCKET IS MOVING
+  // ROCKET IS MOVING DOWN, LEFT, AND RIGHT
+  // sourse: flappy ufo game from the lecture
+  // sourse: video lectures about && and ||
+  // sourse: video lectures about 'keyIsDown'
 
   rocketX = rocketX + 0;
 
@@ -253,15 +259,22 @@ function gameScreen() {
   }
 
   if (keyIsDown(37)) {
-    rocketX = rocketX - 3;
+    rocketX = rocketX - 2;
   }
   if (keyIsDown(39)) {
-    rocketX = rocketX + 3;
+    rocketX = rocketX + 2;
   }
 
+  // to hide objects sourse: https://p5js.org/reference/#/p5.Element/hide
+  // to show objects sourse: https://p5js.org/reference/#/p5.Element/show
+
+  buttonFail.hide();
+  buttonWin.hide();
+
   // ROCKET CRASHES IF NOT LANDING ON A FLAT GROUND
+
   /*
-  if ((rocketX < 300 && rocketY > 600) || (rocketX > 600 && rocketY > 600)) {
+  if ((rocketX < 450 && rocketY > 600) || (rocketX > 600 && rocketY > 600)) {
     isGameActive = false;
     state = "fail";
     failScreen();
@@ -273,7 +286,7 @@ function gameScreen() {
   */
 }
 
-// WIN SCREEN WIN SCREEN WIN SCREEN
+// WIN SCREEN
 function winScreen() {
   noStroke();
   background(0, 0, 0);
@@ -296,7 +309,7 @@ function winScreen() {
   buttonWin.show();
 }
 
-// FAIL SCREEN FAIL SCREEN FAIL SCREEN
+// FAIL SCREEN
 function failScreen() {
   noStroke();
   background(0, 0, 0);
@@ -319,6 +332,7 @@ function failScreen() {
   buttonFail.show();
 }
 
+// changing screens on click sourse: video lecture about screens
 function mouseClicked() {
   if (state === "start") {
     state = "game";
@@ -326,19 +340,19 @@ function mouseClicked() {
     state = "result";
   } else if (state === "result") {
     state = "start";
-  } else if (state === "win") {
-    winScreen();
-  } else if (state === "fail") {
-    failScreen();
   }
 }
 
+// buttons working
+// sourse:
 function playAgainWin() {
   state = "start";
+  isGameActive = true;
 }
 
 function tryAgainFail() {
-  state = "game";
+  state = "start";
+  isGameActive = true;
 }
 
 let state = "start";
