@@ -1,10 +1,36 @@
 function setup() {
   createCanvas(800, 800);
+
+  //how to make buttons work sourse: https://www.youtube.com/watch?v=YLIJLWZ-QB8
+  //how to make buttons work sourse 2: https://p5js.org/reference/#/p5/createButton
+  //button styling sourse: https://www.youtube.com/watch?v=7_jNZLu_6H8
+
+  // first button on win screen
+  buttonWin = createButton("Play again");
+  buttonWin.mouseClicked(playAgainWin);
+  buttonWin.position(360, 450);
+  buttonWin.style("color:black");
+  buttonWin.style("background-color: rgb(255, 215, 0)");
+  buttonWin.size(120, 40);
+  buttonWin.style("border-radius", "10px");
+  buttonWin.style("border", "none");
+  buttonWin.hide();
+
+  // second button on fail screen
+  buttonFail = createButton("Try again");
+  buttonFail.mouseClicked(tryAgainFail);
+  buttonFail.position(360, 450);
+  buttonFail.style("color:black");
+  buttonFail.style("background-color: rgb(255, 215, 0)");
+  buttonFail.size(120, 40);
+  buttonFail.style("border-radius", "10px");
+  buttonFail.style("border", "none");
+  buttonFail.hide();
 }
 
 background(0, 0, 0);
 
-function rocket(x, y) {
+function fire(x, y) {
   // sourse for making fire https://www.youtube.com/watch?v=cl5FW_zgY_Q
   //fire
   fill(255, 215, 0);
@@ -14,7 +40,9 @@ function rocket(x, y) {
   fill(255, 170, 51);
   ellipse(x, y + random(70, 77), 20, 50);
   pop();
+}
 
+function rocket(x, y) {
   // legs
   fill(18, 44, 44);
   ellipse(x + 37.5, y + 70, 6);
@@ -54,13 +82,26 @@ function rocket(x, y) {
   // bottom
   fill(18, 44, 44);
   rect(x - 23, y + 60, 45, 15, 6);
+
+  //top
+  beginShape();
+  vertex(x - 20, y - 60);
+  bezierVertex(x - 25, y - 60, x, y - 100, x + 22, y - 60);
+  vertex(x + 20, y - 60);
+  bezierVertex(x + 20, y - 60, x, y - 55, x - 20, y - 60);
+  vertex(x - 20, y - 60);
+  endShape();
 }
 
 function redPlanet(x, y) {
   // red planet
   strokeWeight(1);
+  push();
+  drawingContext.shadowBlur = 5;
+  drawingContext.shadowColor = "pink";
   fill(145, 95, 95);
   ellipse(x, y, 100);
+  pop();
   strokeWeight(0);
   fill(185, 115, 115);
   ellipse(x - 30, y + 20, 15);
@@ -74,9 +115,12 @@ function redPlanet(x, y) {
 function bluePlanet(x, y) {
   // blue planet
   strokeWeight(1);
+  push();
+  drawingContext.shadowBlur = 5;
+  drawingContext.shadowColor = "white";
   fill(111, 143, 175);
   ellipse(x, y, 150);
-
+  pop();
   strokeWeight(0);
   fill(71, 103, 135);
   ellipse(x + 30, y + 20, 50);
@@ -89,8 +133,12 @@ function bluePlanet(x, y) {
 function GreenPlanet(x, y) {
   // beige planet
   strokeWeight(1);
+  push();
+  drawingContext.shadowBlur = 5;
+  drawingContext.shadowColor = "white";
   fill(120, 156, 132);
   ellipse(x - 100, y - 70, 170);
+  pop();
   fill(95, 133, 117);
   ellipse(x - 100, y - 100, 70);
   ellipse(x - 140, y - 40, 20);
@@ -99,20 +147,29 @@ function GreenPlanet(x, y) {
 }
 
 function ground(x, y) {
+  //
   fill(200, 200, 200);
   rect(x, y, 800, 500);
   // crash zone
-  triangle(x, y - 200, x + 200, y, x, y);
+
+  push();
+  fill(220, 220, 220);
+  triangle(x, y - 250, x + 300, y, x, y);
+  pop();
   triangle(x + 600, y, x + 800, y - 350, x + 800, y);
   triangle(x + 200, y - 150, x + 100, y, x + 450, y);
   triangle(x, y - 150, x + 150, y, x + 200, y - 150);
+  triangle(x, y - 150, x, y, x + 150, y);
+  fill(190, 190, 190);
+  rect(x, y + 10, 800, 500);
+  fill(170, 170, 170);
+  rect(x, y + 40, 800, 500);
   fill(150, 150, 150);
-  ellipse(x + 200, y + random(50, 51), 100, 50);
-  ellipse(x + 350, y + random(70, 71), 70, 30);
-  ellipse(x + 600, y + random(40, 41), 70, 30);
-  ellipse(x + 50, y + random(90, 91), 130, 50);
-  ellipse(x + 700, y + random(90, 91), 130, 50);
+
+  rect(x, y + 70, 800, 500);
 }
+
+// stars from the video lecture
 
 let starX = [];
 let starY = [];
@@ -138,12 +195,19 @@ function startScreen() {
 
     starAlpha[index] = starAlpha[index] + 0.02;
   }
+  push();
 
+  // shining text sourse: https://p5js.org/reference/#/p5/drawingContext
+  drawingContext.shadowBlur = 3;
+  drawingContext.shadowColor = "white";
   fill(255, 255, 255);
   textSize(40);
   text("Click to start", 300, 300);
   textSize(30);
   text("You should land on a flat ground", 200, 370);
+  pop();
+
+  ground(0, 700);
 }
 
 function gameScreen() {
@@ -162,6 +226,7 @@ function gameScreen() {
   redPlanet(200, 250);
   GreenPlanet(200, 180);
   ground(0, 700);
+  fire(rocketX, rocketY);
   rocket(rocketX, rocketY);
 
   // ROCKET IS MOVING
@@ -219,10 +284,16 @@ function winScreen() {
 
     starAlpha[index] = starAlpha[index] + 0.02;
   }
-
+  push();
+  drawingContext.shadowBlur = 3;
+  drawingContext.shadowColor = "white";
   fill(255, 255, 255);
   textSize(40);
   text("You landed safely!", 230, 300);
+  textSize(30);
+  text("Click to play again", 270, 350);
+  pop();
+  buttonWin.show();
 }
 
 // FAIL SCREEN FAIL SCREEN FAIL SCREEN
@@ -236,11 +307,16 @@ function failScreen() {
 
     starAlpha[index] = starAlpha[index] + 0.02;
   }
-
+  push();
+  drawingContext.shadowBlur = 3;
+  drawingContext.shadowColor = "white";
   fill(255, 255, 255);
   textSize(40);
   text("You crashed!", 280, 300);
   text("Click to try again", 250, 350);
+  pop();
+  buttonWin.hide();
+  buttonFail.show();
 }
 
 function mouseClicked() {
@@ -251,10 +327,18 @@ function mouseClicked() {
   } else if (state === "result") {
     state = "start";
   } else if (state === "win") {
-    winScrean();
+    winScreen();
   } else if (state === "fail") {
     failScreen();
   }
+}
+
+function playAgainWin() {
+  state = "start";
+}
+
+function tryAgainFail() {
+  state = "game";
 }
 
 let state = "start";
