@@ -35,7 +35,6 @@ function setup() {
   buttonFail.style("border", "none");
   buttonFail.hide();
 }
-background(0, 0, 0);
 
 function fire(x, y) {
   //fire
@@ -207,9 +206,9 @@ let starY = [];
 let starAlpha = [];
 
 for (let i = 0; i < 300; i++) {
-  const x = Math.floor(Math.random() * width);
-  const y = Math.floor(Math.random() * height);
-  const alpha = Math.random() * height;
+  const x = Math.floor(Math.random() * 800);
+  const y = Math.floor(Math.random() * 800);
+  const alpha = Math.random() * 800;
 
   starX.push(x);
   starY.push(y);
@@ -286,7 +285,7 @@ function gameScreen() {
   }
 
   // identifying the area where rocket can/ can't land
-  if (rocketY > 650 && rocketX < 450 && rocketX > 600 && velocity > 5) {
+  if (rocketY > 650 && (rocketX < 450 || rocketX > 600 || velocity > 5)) {
     isGameActive = false;
     state = "fail";
     failScreen();
