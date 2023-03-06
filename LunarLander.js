@@ -1,3 +1,11 @@
+let fireVisible = false;
+let state = "start";
+let rocketX = 400;
+let rocketY = 100;
+let velocity = 1;
+let acceleration = 0.3;
+let isGameActive = true;
+
 function setup() {
   createCanvas(800, 800);
 
@@ -7,7 +15,7 @@ function setup() {
 
   // first button on win screen
   buttonWin = createButton("Play again");
-  buttonWin.mouseClicked(playAgainWin);
+  buttonWin.mousePressed(playAgainWin);
   buttonWin.position(360, 450);
   buttonWin.style("color:black");
   buttonWin.style("background-color: rgb(255, 215, 0)");
@@ -18,7 +26,7 @@ function setup() {
 
   // second button on fail screen
   buttonFail = createButton("Try again");
-  buttonFail.mouseClicked(tryAgainFail);
+  buttonFail.mousePressed(tryAgainFail);
   buttonFail.position(360, 450);
   buttonFail.style("color:black");
   buttonFail.style("background-color: rgb(255, 215, 0)");
@@ -27,7 +35,6 @@ function setup() {
   buttonFail.style("border", "none");
   buttonFail.hide();
 }
-
 background(0, 0, 0);
 
 function fire(x, y) {
@@ -149,6 +156,30 @@ function GreenPlanet(x, y) {
 }
 
 function ground(x, y) {
+  // flags
+  fill(210, 43, 43);
+  triangle(
+    x + 350,
+    y - 135,
+    x + 350,
+    y - 100,
+    x + random(380, 390),
+    y - random(118, 122)
+  );
+  triangle(
+    x + 150,
+    y - 250,
+    x + 150,
+    y - 200,
+    x + random(200, 210),
+    y - random(222, 228)
+  );
+
+  fill(92, 64, 51);
+  rect(rect(x + 150, y - 250, 5, 100));
+  rect(rect(x + 350, y - 135, 5, 80));
+
+  //ground
   fill(200, 200, 200);
   rect(x, y, 800, 500);
 
@@ -229,7 +260,9 @@ function gameScreen() {
   redPlanet(200, 250);
   GreenPlanet(200, 180);
   ground(0, 700);
-  fire(rocketX, rocketY);
+  if (fireVisible == true) {
+    fire(rocketX, rocketY);
+  }
   rocket(rocketX, rocketY);
 
   // ROCKET IS MOVING DOWN, LEFT, AND RIGHT
@@ -244,20 +277,26 @@ function gameScreen() {
     velocity = velocity + acceleration;
   }
 
+  // making fire appear only when pressing keyIsDown(38): got help from the lab
   if (keyIsDown(38) && isGameActive) {
     velocity = velocity - 0.7;
+    fireVisible = true;
+  } else if (keyIsDown(38) === false) {
+    fireVisible = false;
   }
 
-  if (rocketY > 650 && velocity > 5) {
+  // identifying the area where rocket can/ can't land
+  if (rocketY > 650 && rocketX < 450 && rocketX > 600 && velocity > 5) {
     isGameActive = false;
     state = "fail";
     failScreen();
-  } else if (rocketY > 650 && velocity < 5) {
+  } else if (rocketY > 650 && rocketX > 450 && rocketX < 600 && velocity < 5) {
     isGameActive = false;
     state = "win";
     winScreen();
   }
 
+  // navigating rocket left and right
   if (keyIsDown(37)) {
     rocketX = rocketX - 2;
   }
@@ -344,23 +383,24 @@ function mouseClicked() {
 }
 
 // buttons working
-// sourse:
+// sourse: got help during lab
 function playAgainWin() {
   state = "start";
   isGameActive = true;
+  rocketX = 400;
+  rocketY = 100;
+  velocity = 0.1;
+  acceletation = 0.3;
 }
 
 function tryAgainFail() {
   state = "start";
   isGameActive = true;
+  rocketX = 400;
+  rocketY = 100;
+  velocity = 0.1;
+  acceletation = 0.3;
 }
-
-let state = "start";
-let rocketX = 400;
-let rocketY = 100;
-let velocity = 1;
-let acceleration = 0.3;
-let isGameActive = true;
 
 function draw() {
   if (state === "start") {
