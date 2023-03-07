@@ -11,9 +11,9 @@ function setup() {
   frameRate(30);
   background(0, 0, 0);
 
-  //how to make buttons work sourse: https://www.youtube.com/watch?v=YLIJLWZ-QB8
-  //how to make buttons work sourse 2: https://p5js.org/reference/#/p5/createButton
-  //button styling sourse: https://www.youtube.com/watch?v=7_jNZLu_6H8
+  //how to make buttons work source: https://www.youtube.com/watch?v=YLIJLWZ-QB8
+  //how to make buttons work source 2: https://p5js.org/reference/#/p5/createButton
+  //button styling source: https://www.youtube.com/watch?v=7_jNZLu_6H8
 
   // first button on win screen
   buttonWin = createButton("Play again");
@@ -40,7 +40,7 @@ function setup() {
 
 function fire(x, y) {
   //fire
-  // sourse for making fire move https://www.youtube.com/watch?v=cl5FW_zgY_Q
+  // source for making fire move https://www.youtube.com/watch?v=cl5FW_zgY_Q
   fill(255, 215, 0);
   ellipse(x, y + random(80, 88), 35, 60);
   push();
@@ -106,7 +106,7 @@ function redPlanet(x, y) {
   strokeWeight(1);
   push();
 
-  // shining objects sourse: https://p5js.org/reference/#/p5/drawingContext
+  // shining objects source: https://p5js.org/reference/#/p5/drawingContext
   drawingContext.shadowBlur = 5;
   drawingContext.shadowColor = "pink";
   fill(145, 95, 95);
@@ -218,7 +218,7 @@ for (let i = 0; i < 300; i++) {
 }
 
 // START SCREEN
-// sourse: video lecture about screens
+// source: video lecture about screens
 
 function startScreen() {
   noStroke();
@@ -267,9 +267,9 @@ function gameScreen() {
   rocket(rocketX, rocketY);
 
   // ROCKET IS MOVING DOWN, LEFT, AND RIGHT
-  // sourse: flappy ufo game from the lecture
-  // sourse: video lectures about && and ||
-  // sourse: video lectures about 'keyIsDown'
+  // source: flappy ufo game from the lecture
+  // source: video lectures about && and ||
+  // source: video lectures about 'keyIsDown'
 
   rocketX = rocketX + 0;
 
@@ -305,25 +305,11 @@ function gameScreen() {
     rocketX = rocketX + 2;
   }
 
-  // to hide objects sourse: https://p5js.org/reference/#/p5.Element/hide
-  // to show objects sourse: https://p5js.org/reference/#/p5.Element/show
+  // to hide objects source: https://p5js.org/reference/#/p5.Element/hide
+  // to show objects source: https://p5js.org/reference/#/p5.Element/show
 
   buttonFail.hide();
   buttonWin.hide();
-
-  // ROCKET CRASHES IF NOT LANDING ON A FLAT GROUND
-
-  /*
-  if ((rocketX < 450 && rocketY > 600) || (rocketX > 600 && rocketY > 600)) {
-    isGameActive = false;
-    state = "fail";
-    failScreen();
-  } else if (rocketX > 300 || rocketX < 600) {
-    isGameActive = false;
-    state = "win";
-    winScreen();
-  }
-  */
 }
 
 // WIN SCREEN
@@ -372,7 +358,7 @@ function failScreen() {
   buttonFail.show();
 }
 
-// changing screens on click sourse: video lecture about screens
+// changing screens on click source: video lecture about screens
 function mouseClicked() {
   if (state === "start") {
     state = "game";
@@ -384,7 +370,7 @@ function mouseClicked() {
 }
 
 // buttons working
-// sourse: got help during lab
+// source: got help from the lab
 function playAgainWin() {
   state = "start";
   isGameActive = true;
