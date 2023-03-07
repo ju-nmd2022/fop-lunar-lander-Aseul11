@@ -17,7 +17,7 @@ function setup() {
   // first button on win screen
   buttonWin = createButton("Play again");
   buttonWin.mousePressed(playAgainWin);
-  buttonWin.position(360, 450);
+  buttonWin.style.position = (350, 450);
   buttonWin.style("color:black");
   buttonWin.style("background-color: rgb(255, 215, 0)");
   buttonWin.size(120, 40);
