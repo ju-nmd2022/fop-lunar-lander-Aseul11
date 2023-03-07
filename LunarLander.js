@@ -8,6 +8,8 @@ let isGameActive = true;
 
 function setup() {
   createCanvas(800, 800);
+  frameRate(30);
+  background(0, 0, 0);
 
   //how to make buttons work sourse: https://www.youtube.com/watch?v=YLIJLWZ-QB8
   //how to make buttons work sourse 2: https://p5js.org/reference/#/p5/createButton
